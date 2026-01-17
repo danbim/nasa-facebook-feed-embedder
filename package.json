@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
-    "start": "bun run src/index.ts"
+    "start": "bun run src/index.ts",
+    "generate": "bun run src/generate.ts"
   },
   "devDependencies": {
     "bun-types": "^1.3.6"
