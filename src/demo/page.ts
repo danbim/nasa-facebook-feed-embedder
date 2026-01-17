@@ -147,6 +147,35 @@ export function getDemoPage(apiUrl: string, widgetUrl: string): string {
       margin-left: 4px;
     }
 
+    nasa-facebook-feed::part(video-notice) {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      background: linear-gradient(135deg, #f0f2f5 0%, #e4e6eb 100%);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      text-decoration: none;
+      color: #1877f2;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    nasa-facebook-feed::part(video-notice):hover {
+      background: linear-gradient(135deg, #e4e6eb 0%, #d8dadf 100%);
+      transform: translateY(-1px);
+    }
+
+    nasa-facebook-feed::part(video-notice-icon) {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+
+    nasa-facebook-feed::part(video-notice-text) {
+      font-weight: 500;
+      font-size: 0.9375rem;
+    }
+
     nasa-facebook-feed::part(link) {
       display: inline-block;
       color: #1877f2;

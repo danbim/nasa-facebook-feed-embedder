@@ -98,6 +98,13 @@ class NasaFacebookFeed extends HTMLElement {
     return null;
   }
 
+  getVideoNoticeText() {
+    // Detect Danish language
+    const lang = navigator.language || navigator.userLanguage || '';
+    const isDanish = lang.toLowerCase().startsWith('da');
+    return isDanish ? 'Video tilgængelig på Facebook' : 'Video available on Facebook';
+  }
+
   getMediaHtml(post) {
     const attachment = post.attachments?.data?.[0];
     const attachmentUrl = attachment?.url || '';
@@ -137,6 +144,15 @@ class NasaFacebookFeed extends HTMLElement {
         '<img part="image" src="' + post.full_picture + '" alt="" loading="lazy">' +
         '<div part="play-overlay"><svg part="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>' +
         '</div>' +
+        '</a>';
+    }
+
+    // For video shares without thumbnail (Facebook reposts), show notice with link
+    if (attachmentType === 'native_templates' || attachmentType.includes('video') || (attachmentType === 'share' && !post.full_picture)) {
+      const videoIcon = '<svg part="video-notice-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>';
+      return '<a part="video-notice" href="' + post.permalink_url + '" target="_blank" rel="noopener">' +
+        videoIcon +
+        '<span part="video-notice-text">' + this.getVideoNoticeText() + '</span>' +
         '</a>';
     }
 
