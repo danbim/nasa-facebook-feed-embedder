@@ -69,11 +69,24 @@ class NasaFacebookFeed extends HTMLElement {
     });
   }
 
+  getMediaHtml(post) {
+    // Check for video in attachments
+    const attachment = post.attachments?.data?.[0];
+    if (attachment && attachment.media?.source) {
+      return '<video part="video" controls playsinline preload="metadata">' +
+        '<source src="' + attachment.media.source + '" type="video/mp4">' +
+        '</video>';
+    }
+    // Fall back to image
+    if (post.full_picture) {
+      return '<img part="image" src="' + post.full_picture + '" alt="" loading="lazy">';
+    }
+    return '';
+  }
+
   render() {
     const postsHtml = this.posts.map(post => {
-      const imageHtml = post.full_picture
-        ? '<img part="image" src="' + post.full_picture + '" alt="" loading="lazy">'
-        : '';
+      const mediaHtml = this.getMediaHtml(post);
       const messageHtml = post.message
         ? '<p part="message">' + this.escapeHtml(post.message) + '</p>'
         : '';
@@ -81,7 +94,7 @@ class NasaFacebookFeed extends HTMLElement {
       return '<article part="post">' +
         '<time part="date" datetime="' + post.created_time + '">' + this.formatDate(post.created_time) + '</time>' +
         messageHtml +
-        imageHtml +
+        mediaHtml +
         '<a part="link" href="' + post.permalink_url + '" target="_blank" rel="noopener">View on Facebook</a>' +
         '</article>';
     }).join('');

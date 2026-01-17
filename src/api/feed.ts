@@ -7,7 +7,10 @@ export interface FacebookPost {
   attachments?: {
     data: Array<{
       type: string;
-      media?: { image: { src: string } };
+      media?: {
+        image?: { src: string };
+        source?: string;  // Video source URL
+      };
       url?: string;
     }>;
   };
@@ -55,7 +58,7 @@ export async function fetchFeed(
     throw new Error("Missing FACEBOOK_PAGE_ID or FACEBOOK_ACCESS_TOKEN");
   }
 
-  const fields = "id,message,created_time,full_picture,permalink_url,attachments{type,media,url}";
+  const fields = "id,message,created_time,full_picture,permalink_url,attachments{type,media{image,source},url}";
   let url = `https://graph.facebook.com/v18.0/${pageId}/posts?fields=${fields}&limit=${limit}&access_token=${accessToken}`;
 
   if (cursor) {

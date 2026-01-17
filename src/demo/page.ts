@@ -86,6 +86,12 @@ export function getDemoPage(apiUrl: string, widgetUrl: string): string {
       margin-bottom: 1rem;
     }
 
+    nasa-facebook-feed::part(video) {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
     nasa-facebook-feed::part(link) {
       display: inline-block;
       color: #1877f2;

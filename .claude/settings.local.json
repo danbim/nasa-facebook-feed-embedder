@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(superpowers:brainstorming)",
+      "Skill(superpowers:brainstorming:*)",
+      "Skill(superpowers:writing-plans)",
+      "Skill(superpowers:writing-plans:*)",
+      "Skill(superpowers:subagent-driven-development)",
+      "Skill(superpowers:subagent-driven-development:*)",
+      "Bash(bun add:*)",
+      "Bash(bun run dev)",
+      "Bash(git init:*)",
+      "Bash(bun build:*)",
+      "Bash(timeout 3 bun run:*)",
+      "Bash(git -C /Users/danbim/coding/nasa/facebook-feed status)",
+      "Bash(git -C /Users/danbim/coding/nasa/facebook-feed add README.md)",
+      "Bash(git -C /Users/danbim/coding/nasa/facebook-feed commit -m \"docs: add README with setup and usage instructions\")",
+      "Bash(git -C /Users/danbim/coding/nasa/facebook-feed log -1 --oneline)"
+    ]
+  }
+}
