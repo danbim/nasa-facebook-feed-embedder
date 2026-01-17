@@ -92,6 +92,44 @@ nasa-facebook-feed::part(loading) {
 }
 ```
 
+## Static Version (GitHub Pages)
+
+For hosting on GitHub Pages without a server:
+
+### Generate Static Files
+
+```bash
+bun run generate
+```
+
+This fetches 50 posts from Facebook and outputs:
+- `docs/feed.json` - Post data
+- `docs/widget.js` - Static Web Component
+
+### Embed on Your Site
+
+```html
+<script src="https://yourusername.github.io/facebook-feed/widget.js"></script>
+<nasa-facebook-feed limit="5"></nasa-facebook-feed>
+```
+
+### Attributes (Static Version)
+
+- `limit` - Posts to show initially (default: 5)
+- `step` - Posts to reveal per "Load more" click (default: same as limit)
+
+### Automated Updates with GitHub Actions
+
+The included workflow (`.github/workflows/generate.yml`) updates the feed every 6 hours.
+
+**Setup:**
+1. Push to GitHub
+2. Add repository secrets:
+   - `FACEBOOK_PAGE_ID`
+   - `FACEBOOK_ACCESS_TOKEN`
+3. Enable GitHub Pages on the `docs/` folder
+4. Trigger manually or wait for scheduled run
+
 ## Demo
 
 Visit `http://localhost:3000/demo` to see the widget in action.
