@@ -92,6 +92,61 @@ export function getDemoPage(apiUrl: string, widgetUrl: string): string {
       margin-bottom: 1rem;
     }
 
+    nasa-facebook-feed::part(video-container) {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    nasa-facebook-feed::part(video-embed) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+    }
+
+    nasa-facebook-feed::part(video-link) {
+      display: block;
+      text-decoration: none;
+    }
+
+    nasa-facebook-feed::part(video-thumbnail) {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
+    nasa-facebook-feed::part(play-overlay) {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 68px;
+      height: 68px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    nasa-facebook-feed::part(video-thumbnail):hover nasa-facebook-feed::part(play-overlay) {
+      background: rgba(24, 119, 242, 0.9);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    nasa-facebook-feed::part(play-icon) {
+      width: 32px;
+      height: 32px;
+      color: white;
+      margin-left: 4px;
+    }
+
     nasa-facebook-feed::part(link) {
       display: inline-block;
       color: #1877f2;

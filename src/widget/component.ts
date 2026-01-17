@@ -69,14 +69,77 @@ class NasaFacebookFeed extends HTMLElement {
     });
   }
 
+  extractYouTubeId(url) {
+    if (!url) return null;
+    // Match youtube.com/watch?v=ID, youtu.be/ID, youtube.com/embed/ID
+    const patterns = [
+      /youtube\\.com\\/watch\\?v=([^&]+)/,
+      /youtu\\.be\\/([^?]+)/,
+      /youtube\\.com\\/embed\\/([^?]+)/
+    ];
+    for (const pattern of patterns) {
+      const match = url.match(pattern);
+      if (match) return match[1];
+    }
+    return null;
+  }
+
+  extractVimeoId(url) {
+    if (!url) return null;
+    // Match vimeo.com/ID or player.vimeo.com/video/ID
+    const patterns = [
+      /vimeo\\.com\\/(\\d+)/,
+      /player\\.vimeo\\.com\\/video\\/(\\d+)/
+    ];
+    for (const pattern of patterns) {
+      const match = url.match(pattern);
+      if (match) return match[1];
+    }
+    return null;
+  }
+
   getMediaHtml(post) {
-    // Check for video in attachments
     const attachment = post.attachments?.data?.[0];
+    const attachmentUrl = attachment?.url || '';
+    const attachmentType = attachment?.type || '';
+
+    // Check for native Facebook video with source
     if (attachment && attachment.media?.source) {
       return '<video part="video" controls playsinline preload="metadata">' +
         '<source src="' + attachment.media.source + '" type="video/mp4">' +
         '</video>';
     }
+
+    // Check for YouTube embed
+    const youtubeId = this.extractYouTubeId(attachmentUrl);
+    if (youtubeId) {
+      return '<div part="video-container">' +
+        '<iframe part="video-embed" src="https://www.youtube.com/embed/' + youtubeId + '" ' +
+        'frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ' +
+        'allowfullscreen></iframe>' +
+        '</div>';
+    }
+
+    // Check for Vimeo embed
+    const vimeoId = this.extractVimeoId(attachmentUrl);
+    if (vimeoId) {
+      return '<div part="video-container">' +
+        '<iframe part="video-embed" src="https://player.vimeo.com/video/' + vimeoId + '" ' +
+        'frameborder="0" allow="autoplay; fullscreen; picture-in-picture" ' +
+        'allowfullscreen></iframe>' +
+        '</div>';
+    }
+
+    // For video_inline or share types with thumbnail, show play overlay
+    if ((attachmentType.includes('video') || attachmentType === 'share') && post.full_picture && attachmentUrl) {
+      return '<a part="video-link" href="' + attachmentUrl + '" target="_blank" rel="noopener">' +
+        '<div part="video-thumbnail">' +
+        '<img part="image" src="' + post.full_picture + '" alt="" loading="lazy">' +
+        '<div part="play-overlay"><svg part="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>' +
+        '</div>' +
+        '</a>';
+    }
+
     // Fall back to image
     if (post.full_picture) {
       return '<img part="image" src="' + post.full_picture + '" alt="" loading="lazy">';
