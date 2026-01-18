@@ -99,7 +99,7 @@ class NasaFacebookFeed extends HTMLElement {
   getVideoNoticeText() {
     const lang = navigator.language || navigator.userLanguage || '';
     const isDanish = lang.toLowerCase().startsWith('da');
-    return isDanish ? 'Video tilgængelig på Facebook' : 'Video available on Facebook';
+    return isDanish ? 'Viderendedelt opslag (tilgængeligt på Facebook)' : 'Reshared post (available only on Facebook)';
   }
 
   getMediaHtml(post) {
